@@ -7,5 +7,6 @@ parameters = dict(
   include_entities='true')
 
 response = requests.get(url, params = parameters) 
-for item in response.json:
-    print item
+
+print response.json["followers_count"]
+

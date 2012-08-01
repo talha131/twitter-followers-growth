@@ -1,9 +1,6 @@
 import requests
 from optparse import OptionParser
 
-# From https://dev.twitter.com/docs/api/1/get/users/show
-url = 'https://api.twitter.com/1/users/show.json'
-
 # Parse command line options
 parser = OptionParser()
 parser.add_option("-u", "--user", 
@@ -16,6 +13,9 @@ parser.add_option("-u", "--user",
 
 print options.user
 
+# Get twitter Response
+# From https://dev.twitter.com/docs/api/1/get/users/show
+url = 'https://api.twitter.com/1/users/show.json'
 parameters = dict(
   screen_name=options.user,
   include_entities='true')

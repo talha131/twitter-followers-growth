@@ -117,5 +117,32 @@ def main():
       logging.debug('New row is %r' %row)
       writer.writerow(row)
       csv_file.close()
+
+  # Render CSV into HTML
+  ## Load CSV
+  col1 = 'Date'
+  col2 = 'Followers'
+  data = []
+  reader = csv.reader(open(options.store, 'rb'), dialect='twitter-followers-growth')
+  ### Discard the header
+  reader.next()
+
+  for row in reader:
+    record = { col1 : datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S') , col2 : int(row[1]) }
+    logging.debug('Record is %r' % record)
+    data.append(record)
+
+  logging.debug('Data is %r' % data)
+    
+  ## Prepare table schema  
+  description = {col1: ('datetime'), col2: ('number')}
+
+  ## Load it into gviz_api.DataTable
+  data_table = gviz_api.DataTable(description)
+  data_table.LoadData(data)
+
+  ## Creating a JSon string
+  json = data_table.ToJSon(columns_order=(col1, col2), order_by=col1)
+    
 if __name__ == '__main__':
   main()

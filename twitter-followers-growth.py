@@ -5,6 +5,28 @@ import requests
 import csv
 from os.path import exists
 from time import strftime, localtime
+import gviz_api
+
+page_template = """
+<html>
+  <script src="https://www.google.com/jsapi" type="text/javascript"></script>
+  <script>
+    google.load('visualization', '1', {packages:['annotatedtimeline']});
+
+    google.setOnLoadCallback(drawTable);
+    function drawTable() {
+
+      var json_table = new google.visualization.Table(document.getElementById('table_div_json'));
+      var json_data = new google.visualization.DataTable(%(json)s, 0.6);
+      json_table.draw(json_data, {showRowNumber: true});
+    }
+  </script>
+  <body>
+    <H1>Table created using ToJSon</H1>
+    <div id="table_div_json"></div>
+  </body>
+</html>
+"""
 
 LOGGING_LEVELS = {'critical': logging.CRITICAL,
                   'error': logging.ERROR,

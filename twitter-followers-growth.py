@@ -4,7 +4,7 @@ import sys
 import requests
 import csv
 from os.path import exists
-from time import strftime, localtime
+from datetime import datetime
 import gviz_api
 
 page_template = """
@@ -113,7 +113,7 @@ def main():
       # Log follower count in the CSV file
       csv_file = open(options.store, 'ab')
       writer = csv.writer(csv_file, dialect='twitter-followers-growth')
-      row = [strftime("%Y-%m-%d %H:%M:%S", localtime()), response.json['followers_count']]
+      row = [datetime.now().strftime("%Y-%m-%d %H:%M:%S"), response.json['followers_count']]
       logging.debug('New row is %r' %row)
       writer.writerow(row)
       csv_file.close()

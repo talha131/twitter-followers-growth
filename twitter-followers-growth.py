@@ -89,10 +89,11 @@ def main():
     else :
       logging.debug('Followers count is %d', response.json['followers_count'])
       # Log follower count in the CSV file
-      writer = csv.writer(open(options.store, 'ab'), dialect='twitter-followers-growth')
+      csv_file = open(options.store, 'ab')
+      writer = csv.writer(csv_file, dialect='twitter-followers-growth')
       row = [strftime("%Y-%m-%d %H:%M:%S", localtime()), response.json['followers_count']]
       logging.debug('New row is %r' %row)
       writer.writerow(row)
-
+      csv_file.close()
 if __name__ == '__main__':
   main()

@@ -144,6 +144,14 @@ def main():
 
   ## Creating a JSon string
   json = data_table.ToJSon(columns_order=(col1, col2), order_by=col1)
+
+  ## Write output
+  if options.output :
+    output = open (options.output, 'wb')
+    output.write(page_template % {'json' :json})
+    output.close()
+  else :
+    print page_template % {'json': json}
     
 if __name__ == '__main__':
   main()

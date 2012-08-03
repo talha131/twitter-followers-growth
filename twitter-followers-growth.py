@@ -81,7 +81,7 @@ def main():
         logging.debug('Header of file %r is %r' % (options.store, inputheader))
 
         if inputheader != header :
-          logging.error('Header does not match. Either enter a new file name or give a valid CSV file that %r generated earlier.' % (__file__))
+          logging.critical('Header does not match. Either enter a new file name or give a valid CSV file that %r generated earlier.' % (__file__))
           sys.exit(1)
 
       else :
@@ -91,7 +91,7 @@ def main():
 
     except csv.Error:
       # File appears not to be in CSV format; move along
-      logging.error('File %r is not a valid CSV file. Either enter a new file name or give a valid CSV file that %s generated earlier.' % (options.store, __file__))
+      logging.critical('File %r is not a valid CSV file. Either enter a new file name or give a valid CSV file that %s generated earlier.' % (options.store, __file__))
       sys.exit(1)
 
   else :

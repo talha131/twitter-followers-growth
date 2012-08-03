@@ -1,5 +1,5 @@
 import logging
-from optparse import OptionParser
+from optparse import OptionParser, OptionGroup
 import sys
 import requests
 import csv
@@ -36,12 +36,13 @@ LOGGING_LEVELS = {'critical': logging.CRITICAL,
                   'debug': logging.DEBUG}
 
 def main():
-  parser = OptionParser()
+  parser = OptionParser(usage = 'usage: %prog -u USER [options]', version='%prog 1.0')
   parser.add_option("-u", "--user", help="Twitter USER name")
-  parser.add_option("-s", "--store", help="store and read data points from the specified file")
-  parser.add_option("-o", "--output", help="write output to the specified file")
-  parser.add_option('-l', '--logging-level', help='Logging level')
-  parser.add_option('-f', '--logging-file', help='Logging file name')
+  parser.add_option("-o", "--output", help="write html code to the specified file. If none is provided, html is printed on stdout.")
+  group = OptionGroup(parser, "Debugging Options", "There are %d logging levels:" % len(LOGGING_LEVELS.keys()) + "%s"%  '\n'.join(LOGGING_LEVELS.keys()))
+  group.add_option('-l', '--logging-level', help='logging level')
+  group.add_option('-f', '--logging-file', help='logging file name')
+  parser.add_option_group(group)
 
   (options, args) = parser.parse_args()
 

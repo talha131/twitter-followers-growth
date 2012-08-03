@@ -8,6 +8,7 @@ from datetime import datetime
 import gviz_api
 
 page_template = """
+<!DOCTYPE html>
 <html>
   <script src="https://www.google.com/jsapi" type="text/javascript"></script>
   <script>

@@ -36,10 +36,11 @@ LOGGING_LEVELS = {'critical': logging.CRITICAL,
                   'debug': logging.DEBUG}
 
 def main():
-  parser.add_option("-o", "--output", help="write html code to the specified file. If none is provided, html is printed on stdout.")
   parser = OptionParser(usage = 'usage: %prog [options] USER', version='%prog 1.0')
+  parser.add_option("-s", "--store", help="store and read data points from the specified file [default=USER.csv]")
+  parser.add_option("-o", "--output", help="write html code to the specified file [default=USER.html]")
   group = OptionGroup(parser, "Debugging Options", "There are %d logging levels:" % len(LOGGING_LEVELS.keys()) + "%s"%  '\n'.join(LOGGING_LEVELS.keys()))
-  group.add_option('-l', '--logging-level', help='logging level')
+  group.add_option('-l', '--logging-level', help='logging level [default=%default]', default = 'error')
   group.add_option('-f', '--logging-file', help='logging file name')
   parser.add_option_group(group)
 
@@ -50,6 +51,12 @@ def main():
       exit(1)
 
   user = args[0]
+
+  if not options.store :
+    options.store = user + '.csv'
+
+  if not options.output :
+    options.output = user + '.html'
 
   logging_level = LOGGING_LEVELS.get(options.logging_level, logging.NOTSET)
   logging.basicConfig(level=logging_level, filename=options.logging_file,
@@ -157,8 +164,6 @@ def main():
     output = open (options.output, 'wb')
     output.write(page_template % {'json' :json})
     output.close()
-  else :
-    print page_template % {'json': json}
     
 if __name__ == '__main__':
   main()

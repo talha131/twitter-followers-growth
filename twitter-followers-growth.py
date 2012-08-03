@@ -37,7 +37,8 @@ LOGGING_LEVELS = {'critical': logging.CRITICAL,
 def main():
   parser = OptionParser()
   parser.add_option("-u", "--user", help="Twitter USER name")
-  parser.add_option("-s", "--store", help="File name in which followers count would be stored")
+  parser.add_option("-s", "--store", help="store and read data points from the specified file")
+  parser.add_option("-o", "--output", help="write output to the specified file")
   parser.add_option('-l', '--logging-level', help='Logging level')
   parser.add_option('-f', '--logging-file', help='Logging file name')
 

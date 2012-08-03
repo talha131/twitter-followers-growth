@@ -36,22 +36,27 @@ LOGGING_LEVELS = {'critical': logging.CRITICAL,
                   'debug': logging.DEBUG}
 
 def main():
-  parser = OptionParser(usage = 'usage: %prog -u USER [options]', version='%prog 1.0')
-  parser.add_option("-u", "--user", help="Twitter USER name")
   parser.add_option("-o", "--output", help="write html code to the specified file. If none is provided, html is printed on stdout.")
+  parser = OptionParser(usage = 'usage: %prog [options] USER', version='%prog 1.0')
   group = OptionGroup(parser, "Debugging Options", "There are %d logging levels:" % len(LOGGING_LEVELS.keys()) + "%s"%  '\n'.join(LOGGING_LEVELS.keys()))
   group.add_option('-l', '--logging-level', help='logging level')
   group.add_option('-f', '--logging-file', help='logging file name')
   parser.add_option_group(group)
 
   (options, args) = parser.parse_args()
+  
+  if not args :
+      parser.error('Twitter user name is mandatory. Use --help for more details.')
+      exit(1)
+
+  user = args[0]
 
   logging_level = LOGGING_LEVELS.get(options.logging_level, logging.NOTSET)
   logging.basicConfig(level=logging_level, filename=options.logging_file,
                       format='%(asctime)s %(levelname)s: %(message)s',
                       datefmt='%Y-%m-%d %H:%M:%S')
 
-  logging.debug('User name is %r' % options.user)
+  logging.debug('User name is %r' % user)
   logging.debug('Store data points in %r' % options.store)
 
   # Create a CSV file 
@@ -100,7 +105,7 @@ def main():
   ## From https://dev.twitter.com/docs/api/1/get/users/show
   url = 'https://api.twitter.com/1/users/show.json'
   parameters = dict(
-    screen_name=options.user,
+    screen_name=user,
     include_entities='true')
 
   response = requests.get(url, params = parameters)
